@@ -9,7 +9,10 @@ Bloon::Bloon(){}
 // Description: Abstract class - cannot directly instantiate this class
 // Preconditions: None
 // Postconditions: Populates variables used in child classes
-Bloon::Bloon(int health, int location){}
+Bloon::Bloon(int health, int location){
+    m_health = health;
+    m_location = location;
+}
 // Name: virtual ~Bloon - Virtual Destructor
 // Description: Makes sure everything in child class is deallocated
 // Preconditions: None
@@ -20,7 +23,8 @@ Bloon::~Bloon(){}
 // Preconditions: Bloon has health
 // Postconditions: None
 int Bloon::GetHealth(){
-    return 0;
+    
+    return m_health;
 }
 // Name: SetHealth()
 // Description: Sets health of bloon
@@ -59,6 +63,6 @@ string Bloon::GetColor(){
 // Description: Prints the details of an bloon
 // Preconditions: all variables are set valid
 // Postconditions: returns an ostream with output of bloon
-ostream& operator<<(ostream&, Bloon&){
-
+ostream& operator<< (ostream& output, Bloon& bloon){
+    return  output << "test" << endl;
 }

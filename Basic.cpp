@@ -10,12 +10,39 @@ Basic::Basic(){}
 // if health = 1, red, 2=blue, 3=green, 4=yellow, 5=pink, >=6=black
 // Preconditions: None
 // Postconditions: Can create a basic bloon
-Basic::Basic(int, int){}
+Basic::Basic(int health, int location) : Bloon(health, location){
+	switch (health)
+	{
+	case 1:
+		m_color = "red";
+		break;
+	case 2:
+		m_color = "blue";
+		break;
+	case 3:
+		m_color = "green";
+		break;
+	case 4:
+		m_color = "yellow";
+		break;
+	case 5:
+		m_color = "pink";
+		break;
+	case 6:
+		m_color = "black";
+		break;
+	default:
+		
+		break;
+	}
+}
 // Name: ~Basic - Virtual Destructor
 // Description: Makes sure everything in child class is deallocated
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
-Basic::~Basic(){}
+Basic::~Basic(){
+
+}
 // Name: Pop
 // Description: Changes the color of the bloon based on how many health it has left
 // red = 1, blue = 2, green = 3, yellow = 4, pink = 5, black >=6
