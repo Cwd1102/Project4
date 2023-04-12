@@ -58,6 +58,7 @@ void Game::BuyMonkey(){
 // Preconditions: Successfully purchased new monkey
 // Postconditions: New monkey is added to m_monkey at chosen location
 void Game::PlaceMonkey(int choice){
+
 }
 // Name: StartGame()
 // Description: Welcomes the player to the game. Continually calls MainMenu until user quits
@@ -66,7 +67,6 @@ void Game::PlaceMonkey(int choice){
 void Game::StartGame(){
     cout << "Welcome to UMBC Bloons!" << endl;
     int choice = -1;
-
 
     do {
         choice = MainMenu();
