@@ -1,10 +1,23 @@
+/*****************************************
+** File:    Bloon.cpp
+** Project: CMSC 202 Project 4, Spring 2023
+** Author:  Ouwen Dai
+** Date:    4/20/23
+** Section: 43
+** E-mail:  odai1@umbc.edu
+**
+**
+***********************************************/
 #include "Bloon.h"
 
 // Name: Bloon() - Default Constructor
 // Description: Abstract class - cannot directly instantiate this class
 // Preconditions: None
 // Postconditions: Populates variables used in child classes (may not be specifically used)
-Bloon::Bloon(){}
+Bloon::Bloon() {
+    m_health = 0;
+    m_location = 0;
+}
 // Name: Bloon(int health, int location) - Overloaded Constructor
 // Description: Abstract class - cannot directly instantiate this class
 // Preconditions: None
@@ -17,47 +30,38 @@ Bloon::Bloon(int health, int location){
 // Description: Makes sure everything in child class is deallocated
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
-Bloon::~Bloon(){}
+Bloon::~Bloon(){
+
+
+
+}
 // Name: GetHealth()
 // Description: Returns health of bloon
 // Preconditions: Bloon has health
 // Postconditions: None
 int Bloon::GetHealth(){
-    
     return m_health;
 }
 // Name: SetHealth()
 // Description: Sets health of bloon
 // Preconditions: None
 // Postconditions: Health is set
-void Bloon::SetHealth(int){}
+void Bloon::SetHealth(int health){
+    m_health = health;
+}
 // Name: GetLocation()
 // Description: Returns location of bloon
 // Preconditions: Bloon has location
 // Postconditions: None
 int Bloon::GetLocation(){
-
-    return 0;
+    return m_location;
 }
 // Name: SetLocation()
 // Description: Sets location of bloon
 // Preconditions: None
 // Postconditions: Location is set
-void Bloon::SetLocation(int){}
-// Name: Pop()
-// Description: Defines popping
-// Preconditions: None
-// Postconditions: None (Purely virtual - must be in child classes)
-int Bloon::Pop(int damage){
-    return 0;
-}
-// Name: GetColor
-// Description: Virtual
-// Preconditions: None
-// Postconditions: None (Purely virtual - must be in child classes)
-string Bloon::GetColor(){
-
-    return " ";
+void Bloon::SetLocation(int location){
+    m_location = location;
 }
 // Name: Overloaded <<
 // Description: Prints the details of an bloon

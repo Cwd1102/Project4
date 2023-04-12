@@ -1,3 +1,14 @@
+/*****************************************
+** File:    Game.cpp
+** Project: CMSC 202 Project 4, Spring 2023
+** Author:  Ouwen Dai
+** Date:    4/20/23
+** Section: 43
+** E-mail:  odai1@umbc.edu
+**
+**
+***********************************************/
+
 #include "Game.h"
 
 // Name: Game() - Default Constructor
@@ -6,7 +17,9 @@
 // Postconditions: Initializes all game variables to defaults (constants)
 // including rounds played
 Game::Game(){
-
+    m_curRound = START_ROUND;
+    m_curMoney = START_MONEY;
+    m_curLife = START_LIFE;
 }
 // Name: ~Game
 // Description: Destructor
@@ -37,18 +50,48 @@ void Game::ImproveMonkey(){
 //            Reduces m_curMoney and then calls PlaceMonkey (which creates and places new monkey)
 // Precondition: Must have enough money to pay (COST_DART, COST_BOOMERANG, or COST_BOMB)
 // Postcondition: Specified monkey is added a chosen location on the path
-void Game::BuyMonkey(){}
+void Game::BuyMonkey(){
+}
 // Name: PlaceMonkey(int choice)
 // Description: Based on monkey purchased in BuyMonkey, asks user where to place new monkey
 //              Dynamically allocates new monkey and populates location and adds to m_monkey
 // Preconditions: Successfully purchased new monkey
 // Postconditions: New monkey is added to m_monkey at chosen location
-void Game::PlaceMonkey(int choice){}
+void Game::PlaceMonkey(int choice){
+}
 // Name: StartGame()
 // Description: Welcomes the player to the game. Continually calls MainMenu until user quits
 // Preconditions: None
 // Postconditions: Thanks user when quitting
-void Game::StartGame(){}
+void Game::StartGame(){
+    cout << "Welcome to UMBC Bloons!" << endl;
+    int choice = -1;
+
+
+    do {
+        choice = MainMenu();
+        switch (choice)
+        {
+        case 1:
+
+        case 2:
+            
+        case 3:
+
+        case 4:
+
+        case 5:
+
+        case 6:
+            cout << "Thank you for playing!" << endl;
+        default:
+            break;
+        }
+
+    
+    
+    } while (choice != 6);
+}
 // Name: MainMenu()
 // Description: Checks to see if player still has life. If m_curLife <= 0, game ends with loss.
 //              Display menu (View Map, Buy New Monkey, Improve Existing Monkey
@@ -57,8 +100,27 @@ void Game::StartGame(){}
 // Preconditions: None
 // Postconditions: Game continues until quit or player runs out of life
 int Game::MainMenu(){
+    int life = m_curLife;
+    int choice = -1;
 
-    return 0;
+    if (m_curLife > 0) {
+        cout << "What would you like to do ?" << endl;
+        cout << "1. View Map" << endl;
+        cout << "2. Buy New Monkey" << endl;
+        cout << "3. Improve Existing Monkey" << endl;
+        cout << "4. Progress Round" << endl;
+        cout << "5. Check Stats" << endl;
+        cout << "6. Quit" << endl;
+        cin >> choice;
+        return choice;
+    }
+    else {
+        cout << "Game over, you lose !" << endl;
+        return 0;
+    }
+
+
+    return -1;
 }
 // Name: Stats()
 // Description: Displays the information about the game
