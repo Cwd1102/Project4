@@ -34,7 +34,34 @@ Game::~Game(){
 // Precondition: None
 // Postcondition: None
 void Game::PrintMap(){
+    for (int i = 0; i < PATH_LENGTH; i++) {
+        cout << "**Location " << i + 1<< "**" << endl;
+        cout << "--Monkeys--" << endl;
 
+        if (m_monkeys.size() > 0) {
+            for (unsigned int j = 0; j < m_monkeys.size(); j++) {
+                if (i == m_monkeys.at(j)->GetLocation() - 1) {
+                    cout << *m_monkeys.at(j);
+                }
+            }
+        }
+        else {
+            cout << "None" << endl;
+        }
+
+        cout << "<<Bloons>>" << endl;
+        if (m_bloons.size() > 0) {
+            for (unsigned int j = 0; j < m_bloons.size(); j++) {
+                if (i == m_bloons.at(j)->GetLocation() - 1) {
+                    cout << j;
+                    cout << *m_bloons.at(j);
+                }
+            }
+        }
+        else {
+            cout << "None\n" << endl;
+        }
+    }
 
 }
 // Name: ImproveMonkey
@@ -43,7 +70,37 @@ void Game::PrintMap(){
 // Precondition: Must have monkeys in m_monkeys and have enough money to pay (COST_IMPROVE)
 // Postcondition: Monkey's damage is permanently improved
 void Game::ImproveMonkey(){
+    bool condition = true;
+    int choice = 0;
 
+    if (m_monkeys.size() > 0) {
+        if (m_curMoney >= 2) {
+            do {
+                cout << "Which monkey would you like to improve? (1-" << m_monkeys.size() << ")" << endl;
+                for (unsigned int i = 0; i < m_monkeys.size(); i++) {
+                    cout << i + 1 << ". " << *m_monkeys.at(i);
+                }
+                cin >> choice;
+
+                if ((choice >= 1) && (choice <= m_monkeys.size())) {
+                    choice -= 1;
+                    string type = m_monkeys.at(choice)->GetType();
+                    int damage = m_monkeys.at(choice)->GetDamage();
+              
+                    m_monkeys.at(choice)->SetDamage(IMPROVE_VALUE + damage);
+                    cout << type << " improved" << endl;
+                    m_curMoney -= 2;
+                    condition = false;
+                }
+            } while (condition);
+        }
+        else {
+            cout << "You do not have enough money to improve!" << endl;
+        }
+    }
+    else {
+        cout << "There are no monkeys to improve" << endl;
+    }
 }
 // Name: BuyMonkey
 // Description: Asks the user which monkey they would like to buy
@@ -51,6 +108,68 @@ void Game::ImproveMonkey(){
 // Precondition: Must have enough money to pay (COST_DART, COST_BOOMERANG, or COST_BOMB)
 // Postcondition: Specified monkey is added a chosen location on the path
 void Game::BuyMonkey(){
+    int choice = -1;
+    int monkeyPlace = 0;
+    bool place = false;
+    
+    do {
+        cout << "What type of monkey would you like to buy?" << endl;
+        cout << "1. Dart Monkey" << endl;
+        cout << "2. Boomerang Monkey" << endl;
+        cout << "3. Bomb monkey" << endl;
+        cout << "4. Cancle" << endl;
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            if (m_curMoney >= COST_DART){
+                place = true;
+            }
+            break;
+        case 2:
+            if (m_curMoney >= COST_BOOMERANG) {
+                place = true;
+            }
+            break;
+        case 3:
+            if (m_curMoney >= COST_BOMB) {
+                place = true;
+            }
+        default:
+            break;
+        }
+
+        if (!place && ((choice >= 1) && (choice < 4))) {
+            cout << "You do not have enough money to purchase this monkey" << endl;
+        }
+
+        while (place) {
+            cout << "where would you like to place your monkey? (1-" << PATH_LENGTH << ")" << endl;
+            cin >> monkeyPlace;
+            if ((choice >= 1) && (monkeyPlace <= PATH_LENGTH)) {
+                if (choice == 1) {
+                    Dart* newDart = new Dart("Dart Monkey", DAMAGE_DART, monkeyPlace);
+                    m_monkeys.push_back(newDart);
+                    m_curMoney -= COST_DART;
+                }
+                else if (choice == 2) {
+                    Boomerang* newBoom = new Boomerang("Boomerang Monkey", DAMAGE_BOOM, monkeyPlace);
+                    m_monkeys.push_back(newBoom);
+                    m_curMoney -= COST_BOOMERANG;
+                }
+                else if (choice == 3) {
+                    Bomb* newBomb = new Bomb("Bomb Moneky", DAMAGE_BOMB, monkeyPlace);
+                    m_monkeys.push_back(newBomb);
+                    m_curMoney -= COST_BOMB;
+                }
+                place = false;
+                choice = 4;
+            }
+        }
+    } while (choice >= 1 && choice < 4);
+
+
 }
 // Name: PlaceMonkey(int choice)
 // Description: Based on monkey purchased in BuyMonkey, asks user where to place new monkey
@@ -58,6 +177,7 @@ void Game::BuyMonkey(){
 // Preconditions: Successfully purchased new monkey
 // Postconditions: New monkey is added to m_monkey at chosen location
 void Game::PlaceMonkey(int choice){
+
 
 }
 // Name: StartGame()
@@ -73,23 +193,25 @@ void Game::StartGame(){
         switch (choice)
         {
         case 1:
-
+            PrintMap();
+            break;
         case 2:
-            
+            BuyMonkey();
+            break;
         case 3:
-
+            ImproveMonkey();
+            break;
         case 4:
-
+            PlayRound();
+            break;
         case 5:
-
+            Stats();
+            break;
         case 6:
             cout << "Thank you for playing!" << endl;
         default:
             break;
         }
-
-    
-    
     } while (choice != 6);
 }
 // Name: MainMenu()
@@ -119,7 +241,6 @@ int Game::MainMenu(){
         return 0;
     }
 
-
     return -1;
 }
 // Name: Stats()
@@ -127,7 +248,13 @@ int Game::MainMenu(){
 //              (current round, number of monkeys, money, and lives left)
 // Preconditions: None
 // Postconditions: None
-void Game::Stats(){}
+void Game::Stats(){
+    cout << "**Current Stats**" << endl;
+    cout << "Current round: " << m_curRound << endl;
+    cout << "Monkeys Working: " << m_monkeys.size()  << endl;
+    cout << "Current Money: " << m_curMoney << endl;
+    cout << "Current Life: " << m_curLife << endl;
+}
 // Name: PlayRound()
 // Description: Announces beginning and end of round
 //              Calls PopulateBloons once then ResolveBattle once.
@@ -136,7 +263,9 @@ void Game::Stats(){}
 //              Increments curRound
 // Preconditions: None
 // Postconditions: Round progresses
-void Game::PlayRound(){}
+void Game::PlayRound(){
+
+}
 // Name: PopulateBloons
 // Description: Each round, dynamically allocated bloons added to path in position START_BLOON
 //              Bloons have a minimum of 1 health.
@@ -148,25 +277,43 @@ void Game::PlayRound(){}
 //              Notifies user that a new bloon (with color) has appeared.
 // Preconditions: Round is at least 1
 // Postconditions: All new bloons populated
-void Game::PopulateBloons(){}
+void Game::PopulateBloons(){
+    int round = m_curRound;
+    string color = "";
+
+    for (int i = 0; i < m_curRound; i++) {
+        Basic* newBloon = new Basic(i + 1, START_BLOON);
+        m_bloons.push_back(newBloon);
+        cout << "A new " << newBloon->GetColor() << " appears!" << endl;
+    }
+}
 // Name: ResolveBattle()
 // Description: Each monkey attacks the whole bloon vector.
 //              For each pop, curMoney is increased.
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Damage is dealt to bloons
-void Game::ResolveBattle(){}
+void Game::ResolveBattle(){
+
+    for (unsigned int i = 0; i < m_monkeys.size(); i++) {
+        m_curMoney += m_monkeys.at(i)->Attack(m_bloons);
+    }
+}
 // Name: RemovePopped()
 // Description: Iterates through m_bloons and if health is <= 0, bloon is deallocated and
 //              removed from m_bloons
 //         HINT: m_bloons.erase(m_bloons.begin() + counter) will erase at location
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons are removed
-void Game::RemovePopped(){}
+void Game::RemovePopped(){
+
+}
 // Name: MoveBloons
 // Description: For each bloon that still lives, it moves one location down the path
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons increment their location
-void Game::MoveBloons(){}
+void Game::MoveBloons(){
+
+}
 // Name: CheckPath
 // Description: Iterates over m_bloons to see if location is equal to (or greater than)
 //              PATH_LENGTH. If location is equal to PATH_LENGTH, causes damage to player.

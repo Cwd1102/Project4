@@ -11,7 +11,9 @@
 #include "Monkey.h"
 
 Monkey::Monkey(){
-
+	m_damage = -1;
+	m_type = "";
+	m_location = -1;
 }
 // Name: Monkey(string type, int damage, int location) - Overloaded Constructor
 // Description: Abstract class - cannot directly instantiate this class
@@ -74,5 +76,5 @@ void Monkey::SetLocation(int location){
 // Preconditions: all variables are set valid
 // Postconditions: returns an ostream with output of monkey
 ostream& operator<<(ostream& output, Monkey& monkey) {
-	return output << " " << endl;
+	return output << " " << monkey.GetType() << ": Location " << monkey.GetLocation()<< " Damage: "  << monkey.GetDamage() << endl;
 }

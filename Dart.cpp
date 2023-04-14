@@ -37,11 +37,14 @@ int Dart::Attack(vector<Bloon*> bloon){
 	int vectorSize = bloon.size();
 	int earnings = 0;
 	int pop = -1;
+	int health = 0;
 
 	for (unsigned int i = 0; i < vectorSize; i++) {
 		if (i == location) {
+			health = bloon.at(i)->GetHealth();
 			pop = bloon.at(i)->Pop(1);
 			earnings++;
+			return health < earnings ? health : earnings;
 		}
 	}
 	return earnings;

@@ -36,10 +36,10 @@ int Boomerang::Attack(vector<Bloon*> bloon){
 	int location = GetLocation();
 	int vectorSize = bloon.size();
 	int earnings = 0;
-	int health = -1;
+	int health = 0;
 
 	for (unsigned int i = 0; i < vectorSize; i++) {
-		if (i == location) {
+		if (location == GetLocation()) {
 			health = bloon.at(i)->GetHealth();
 			bloon.at(i)->Pop(2);
 			earnings += 2;
