@@ -265,6 +265,7 @@ void Game::Stats(){
 // Postconditions: Round progresses
 void Game::PlayRound(){
 
+
 }
 // Name: PopulateBloons
 // Description: Each round, dynamically allocated bloons added to path in position START_BLOON
@@ -305,14 +306,25 @@ void Game::ResolveBattle(){
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons are removed
 void Game::RemovePopped(){
-
+    
+    for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        if (m_bloons.at(i)->GetHealth() <= 0) {
+            delete m_bloons.at(i);
+            m_bloons.erase(m_bloons.begin() + i);
+        }
+    }
 }
 // Name: MoveBloons
 // Description: For each bloon that still lives, it moves one location down the path
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons increment their location
 void Game::MoveBloons(){
+    int location = 0;
 
+    for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        location = m_bloons.at(i)->GetLocation();
+        m_bloons.at(i)->SetLocation(location + 1);
+    }
 }
 // Name: CheckPath
 // Description: Iterates over m_bloons to see if location is equal to (or greater than)
@@ -323,4 +335,13 @@ void Game::MoveBloons(){
 //              HINT: m_bloons.erase(m_bloons.begin() + counter) will erase at location
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons are removed
-void Game::CheckPath(){}
+void Game::CheckPath(){
+
+    for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        if (m_bloons.at(i)->GetLocation() >= PATH_LENGTH) {
+            m_curLife -= m_bloons.at(i)->GetHealth();
+            delete m_bloons.at(i);
+            m_bloons.erase(m_bloons.begin() + i);
+        }
+    }
+}
