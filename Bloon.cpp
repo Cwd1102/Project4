@@ -68,5 +68,5 @@ void Bloon::SetLocation(int location){
 // Preconditions: all variables are set valid
 // Postconditions: returns an ostream with output of bloon
 ostream& operator<< (ostream& output, Bloon& bloon){
-    return  output << "bloon: " << bloon.GetColor() << " Health: " << bloon.GetHealth();
+    return  output << "bloon: " << bloon.GetColor() << " Health: " << bloon.GetHealth() << endl;;
 }

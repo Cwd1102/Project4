@@ -52,8 +52,7 @@ void Game::PrintMap(){
         cout << "<<Bloons>>" << endl;
         if (m_bloons.size() > 0) {
             for (unsigned int j = 0; j < m_bloons.size(); j++) {
-                if (i == m_bloons.at(j)->GetLocation() - 1) {
-                    cout << j;
+                if (i == m_bloons.at(j)->GetLocation()) {
                     cout << *m_bloons.at(j);
                 }
             }
@@ -238,7 +237,7 @@ int Game::MainMenu(){
     }
     else {
         cout << "Game over, you lose !" << endl;
-        return 0;
+        return 6;
     }
 
     return -1;
@@ -264,8 +263,21 @@ void Game::Stats(){
 // Preconditions: None
 // Postconditions: Round progresses
 void Game::PlayRound(){
+    cout << "Startng round " << m_curRound << "!" << endl;
+    PopulateBloons();
+    ResolveBattle();
+    for (int i = 0; i < 5; i++) {
+        RemovePopped();
 
+    }
 
+    MoveBloons();
+    for (int i = 0; i < 5; i++) {
+        CheckPath();
+
+    }
+    cout << "Round " << m_curRound << " completed!" << endl;
+    m_curRound++;
 }
 // Name: PopulateBloons
 // Description: Each round, dynamically allocated bloons added to path in position START_BLOON
