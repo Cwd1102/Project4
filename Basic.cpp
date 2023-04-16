@@ -52,8 +52,6 @@ Basic::Basic(int health, int location) : Bloon(health, location){
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
 Basic::~Basic(){
-
-
 }
 // Name: Pop
 // Description: Changes the color of the bloon based on how many health it has left
@@ -64,8 +62,10 @@ int Basic::Pop(int damage){
 	int health = GetHealth();
 	
 	health -= damage;
+	SetHealth(health);
 	if (health <=0)
 	{
+		cout << m_color << " bloon pops!" << endl;
 		return 0;
 	}
 	else {

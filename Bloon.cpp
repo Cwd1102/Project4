@@ -31,9 +31,6 @@ Bloon::Bloon(int health, int location){
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
 Bloon::~Bloon(){
-
-
-
 }
 // Name: GetHealth()
 // Description: Returns health of bloon

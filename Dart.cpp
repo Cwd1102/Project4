@@ -33,16 +33,17 @@ Dart::~Dart(){}
 // Preconditions: Bloon must be in same location as Dart monkey
 // Postconditions: Damages one bloon and returns earnings (total pops)
 int Dart::Attack(vector<Bloon*> bloon){
-	int location = GetLocation();
+	int location = GetLocation() - 1;
 	int vectorSize = bloon.size();
 	int earnings = 0;
-	int pop = -1;
 	int health = 0;
-
+	
 	for (unsigned int i = 0; i < vectorSize; i++) {
 		if (i == location) {
 			health = bloon.at(i)->GetHealth();
-			pop = bloon.at(i)->Pop(1);
+			health = bloon.at(i)->Pop(1);
+			cout << "dart monkey throws a dart!" << endl;
+
 			earnings++;
 			return health < earnings ? health : earnings;
 		}
