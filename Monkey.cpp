@@ -76,5 +76,5 @@ void Monkey::SetLocation(int location){
 // Preconditions: all variables are set valid
 // Postconditions: returns an ostream with output of monkey
 ostream& operator<<(ostream& output, Monkey& monkey) {
-	return output << " " << monkey.GetType() << ": Location " << monkey.GetLocation()<< " Damage: "  << monkey.GetDamage() << endl;
+	return output  << monkey.GetType() << ": Location " << monkey.GetLocation()<< " Damage: "  << monkey.GetDamage() << endl;
 }

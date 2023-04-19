@@ -43,7 +43,7 @@ Basic::Basic(int health, int location) : Bloon(health, location){
 		m_color = "black";
 		break;
 	default:
-		
+		m_color = "black";
 		break;
 	}
 }
@@ -60,41 +60,47 @@ Basic::~Basic(){
 // Postconditions: Returns 1 if still alive, returns 0 if health <= 0
 int Basic::Pop(int damage){
 	int health = GetHealth();
+	string color = m_color;
 	
-	health -= damage;
-	SetHealth(health);
-	if (health <=0)
-	{
-		cout << m_color << " bloon pops!" << endl;
-		return 0;
-	}
-	else {
-		switch (health)
+	if (GetHealth() > 0) {
+		health -= damage;
+		cout << color << " bloon pops!" << endl;
+		SetHealth(health);
+		if (health <= 0)
 		{
-		case 1:
-			m_color = "red";
-			break;
-		case 2:
-			m_color = "blue";
-			break;
-		case 3:
-			m_color = "green";
-			break;
-		case 4:
-			m_color = "yellow";
-			break;
-		case 5 :
-			m_color = "pink";
-			break;
-		case 6:
-			m_color = "black";
-			break;
-		default:
-			m_color = "black";
-			break;
+			cout << "the bloon is now gone!" << endl;
+			SetHealth(0);
+			return 0;
 		}
+		else {
+			switch (health)
+			{
+			case red + 1:
+				m_color = "red";
+				break;
+			case blue + 1:
+				m_color = "blue";
+				break;
+			case green + 1:
+				m_color = "green";
+				break;
+			case yellow + 1:
+				m_color = "yellow";
+				break;
+			case pink + 1:
+				m_color = "pink";
+				break;
+			case black + 1:
+				m_color = "black";
+				break;
+			default:
+				m_color = "black";
+				break;
+			}
+			cout << "the bloon is now " << m_color << endl;
 
-		return 1;
+			return 1;
+		}
 	}
     return -1;
 }

@@ -33,17 +33,20 @@ Boomerang::~Boomerang(){}
 // Preconditions: Bloons must be in same location as Boomerang Monkey
 // Postconditions: Damages each bloon and returns earnings (total pops)
 int Boomerang::Attack(vector<Bloon*> bloon){
-	int location = GetLocation() - 1;
-	unsigned int vectorSize = bloon.size();
+	int location = GetLocation();
 	int earnings = 0;
 	int health = 0;
 
-	for (unsigned int i = 0; i < vectorSize; i++) {
-		if (location == GetLocation()) {
-			health = bloon.at(i)->GetHealth();
-			health = bloon.at(i)->Pop(2);
-			cout << "boomerang monkey throws a bomberang!" << endl;
-			earnings += 2;
+	for (unsigned int i = 0; i < bloon.size(); i++) {
+		if (location == bloon.at(i)->GetLocation() + 1) {
+			if (bloon.at(i)->GetHealth() > 0) {
+				cout << "boomerang monkey throws a bomberang!" << endl;
+				health += bloon.at(i)->GetHealth();
+				for (int j = 0; j < 2; j++) {
+					bloon.at(i)->Pop(GetDamage());
+					earnings += (health - bloon.at(i)->GetHealth());
+				}
+			}
 		}
 	}
 	return health < earnings ? health : earnings;
