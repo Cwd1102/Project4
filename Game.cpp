@@ -40,12 +40,34 @@ Game::~Game(){
 // Precondition: None
 // Postcondition: None
 void Game::PrintMap(){
+    int numMonkeys = 0;
+    int numBloons = 0;
+
+    //loops for the length of the game
     for (int i = 0; i < PATH_LENGTH; i++) {
         cout << "**Location " << i + 1<< "**" << endl;
         cout << "--Monkeys--" << endl;
 
-        if (m_monkeys.size() > 0) {
+        //loops for the size of the monkey vector
+        for (unsigned int j = 0; j < m_monkeys.size(); j++) {
+            //checks if there are any monkeys at the i location
+            if (m_monkeys.at(j)->GetLocation() - 1 == i) {
+                numMonkeys++;
+            }
+        }
+        //loops for the size of the bloon vector
+        for ( unsigned int j = 0; j < m_bloons.size(); j++) {
+            //checks if there are any bloons at the i location
+            if (m_bloons.at(j)->GetLocation() == i) {
+                numBloons++;
+            }
+        }
+
+        //checks if there are any monkeys at the location
+        if (numMonkeys> 0) {
+            //loops for sized of monkey vector
             for (unsigned int j = 0; j < m_monkeys.size(); j++) {
+                //checks if there are any monkeys at the i location
                 if (i == m_monkeys.at(j)->GetLocation() - 1) {
                     cout << j + 1 << ". ";
                     cout << *m_monkeys.at(j);
@@ -57,8 +79,11 @@ void Game::PrintMap(){
         }
 
         cout << "<<Bloons>>" << endl;
-        if (m_bloons.size() > 0) {
+        //checks if there are any bloons at the location
+        if (numBloons > 0) {
+            //loops for sized of bloon vector
             for (unsigned int j = 0; j < m_bloons.size(); j++) {
+                //checks if there are any bloons at the i location
                 if (i == m_bloons.at(j)->GetLocation()) {
                     cout << *m_bloons.at(j);
                 }
@@ -68,6 +93,8 @@ void Game::PrintMap(){
         else {
             cout << "None\n" << endl;
         }
+        numMonkeys = 0;
+        numBloons = 0;
     }
 
 }
@@ -80,22 +107,29 @@ void Game::ImproveMonkey(){
     bool condition = true;
     int choice = 0;
 
+    //if monkey size is > 0
     if (m_monkeys.size() > 0) {
+        //if you have enough money
         if (m_curMoney >= 2) {
             do {
                 cout << "Which monkey would you like to improve? (1-" << m_monkeys.size() << ")" << endl;
+                //loops for monkey vector size
                 for (unsigned int i = 0; i < m_monkeys.size(); i++) {
                     cout << i + 1 << ". " << *m_monkeys.at(i);
                 }
                 cin >> choice;
 
+                //if choice is in range
                 if ((choice >= 1) && (choice <= int(m_monkeys.size()))) {
                     choice -= 1;
+                    //gets name of monkey
                     string type = m_monkeys.at(choice)->GetType();
+                    //gets damage of monkey
                     int damage = m_monkeys.at(choice)->GetDamage();
-              
+                    
+                    //sets damage to improved value
                     m_monkeys.at(choice)->SetDamage(IMPROVE_VALUE + damage);
-                    cout << type << " improved" << endl;
+                    cout << type << " in position " << choice + 1 << " improved" << endl;
                     m_curMoney -= 2;
                     condition = false;
                 }
@@ -126,6 +160,7 @@ void Game::BuyMonkey(){
         cout << "4. Cancle" << endl;
         cin >> choice;
 
+        //goes to where player wants
         switch (choice)
         {
         case 1:
@@ -149,6 +184,7 @@ void Game::BuyMonkey(){
 
     if ((choice > 1) || (choice < 4)) {
         if (place) {
+            //places the monkey
             PlaceMonkey(choice);
             choice = 0;
         }
@@ -167,22 +203,28 @@ void Game::BuyMonkey(){
 // Postconditions: New monkey is added to m_monkey at chosen location
 void Game::PlaceMonkey(int choice){
     int monkeyPlace = -1;
+    //loops while monkeyPlace is not vallid
     while ((monkeyPlace < 0) || (monkeyPlace > PATH_LENGTH)) {
         cout << "where would you like to place your monkey? (1-" << PATH_LENGTH << ")" << endl;
         cin >> monkeyPlace;
+        //if monkeyPlace is in range of pathlength
         if ((monkeyPlace >= 0) && (monkeyPlace <= PATH_LENGTH)) {
+
+            //if dart monkey is selected 
             if (choice == 1) {
                 Dart* newDart = new Dart("Dart Monkey", DAMAGE_DART, monkeyPlace);
                 m_monkeys.push_back(newDart);
                 m_curMoney -= COST_DART;
                 cout << "Dart Monkey placed at location " << monkeyPlace << endl;
             }
+            //if boomerang monkey is selected 
             else if (choice == 2) {
                 Boomerang* newBoom = new Boomerang("Boomerang Monkey", DAMAGE_BOOM, monkeyPlace);
                 m_monkeys.push_back(newBoom);
                 m_curMoney -= COST_BOOMERANG;
                 cout << "Boomerang Monkey placed at location " << monkeyPlace << endl;
             }
+            //if bomb monkey is selected 
             else if (choice == 3) {
                 Bomb* newBomb = new Bomb("Bomb Moneky", DAMAGE_BOMB, monkeyPlace);
                 m_monkeys.push_back(newBomb);
@@ -200,6 +242,7 @@ void Game::StartGame(){
     cout << "Welcome to UMBC Bloons!" << endl;
     int choice = -1;
 
+    //loops untill choice 6 is returned 
     do {
         choice = MainMenu();
         switch (choice)
@@ -235,7 +278,7 @@ void Game::StartGame(){
 // Postconditions: Game continues until quit or player runs out of life
 int Game::MainMenu(){
     int choice = -1;
-
+    //if the player has no lives left
     if (m_curLife > 0) {
         cout << "What would you like to do ?" << endl;
         cout << "1. View Map" << endl;
@@ -260,6 +303,7 @@ int Game::MainMenu(){
 // Preconditions: None
 // Postconditions: None
 void Game::Stats(){
+    //prints stats
     cout << "**Current Stats**" << endl;
     cout << "Current round: " << m_curRound << endl;
     cout << "Monkeys Working: " << m_monkeys.size()  << endl;
@@ -278,11 +322,12 @@ void Game::PlayRound(){
     cout << "Startng round " << m_curRound << "!" << endl;
     PopulateBloons();
     ResolveBattle();
+    //called 5 times
     for (int i = 0; i < 5; i++) {
         RemovePopped();
     }
-
     MoveBloons();
+    //called 5 times
     for (int i = 0; i < 5; i++) {
         CheckPath();
     }
@@ -303,7 +348,9 @@ void Game::PlayRound(){
 void Game::PopulateBloons(){
     string color = "";
 
+    //loops for the current round num
     for (int i = 0; i < m_curRound; i++) {
+        //makes new bloon at location -1 and health i+1
         Basic* newBloon = new Basic(i + 1, START_BLOON);
         m_bloons.push_back(newBloon);
         cout << "A new " << newBloon->GetColor() << " appears!" << endl;
@@ -315,6 +362,7 @@ void Game::PopulateBloons(){
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Damage is dealt to bloons
 void Game::ResolveBattle(){
+    //tells all monkeys in the game to attack
     for (unsigned int i = 0; i < m_monkeys.size(); i++) {
         m_curMoney += EARN_POP * (m_monkeys.at(i)->Attack(m_bloons));
     }
@@ -326,8 +374,9 @@ void Game::ResolveBattle(){
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons are removed
 void Game::RemovePopped(){
-    
+    //checks every bloon in game 
     for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        //if bloon health is <= 0 the delete the bloon
         if (m_bloons.at(i)->GetHealth() <= 0) {
             delete m_bloons.at(i);
             m_bloons.erase(m_bloons.begin() + i);
@@ -340,8 +389,9 @@ void Game::RemovePopped(){
 // Postconditions: Bloons increment their location
 void Game::MoveBloons(){
     int location = 0;
-
+    //goes through all bloons in game
     for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        //moves location by 1
         location = m_bloons.at(i)->GetLocation();
         m_bloons.at(i)->SetLocation(location + 1);
     }
@@ -357,11 +407,14 @@ void Game::MoveBloons(){
 // Preconditions: Monkeys and bloons exist
 // Postconditions: Bloons are removed
 void Game::CheckPath(){
-
+    //goes through all bloons in game
     for (unsigned int i = 0; i < m_bloons.size(); i++) {
+        //checks if the curr location of bloon is greater than path length
         if (m_bloons.at(i)->GetLocation() >= PATH_LENGTH) {
             cout << "A bloon made it to the end of the path and you took " << m_bloons.at(i)->GetHealth() << " damage." << endl;
+            //subtracts life by health of bloon
             m_curLife -= m_bloons.at(i)->GetHealth();
+            //deletes bloon
             delete m_bloons.at(i);
             m_bloons.erase(m_bloons.begin() + i);
         }

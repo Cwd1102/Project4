@@ -22,24 +22,26 @@ Basic::Basic(){}
 // Preconditions: None
 // Postconditions: Can create a basic bloon
 Basic::Basic(int health, int location) : Bloon(health, location){
+	
+	//changes color of bloon based on health
 	switch (health)
 	{
-	case 1:
+	case red + 1:
 		m_color = "red";
 		break;
-	case 2:
+	case blue + 1:
 		m_color = "blue";
 		break;
-	case 3:
+	case green + 1:
 		m_color = "green";
 		break;
-	case 4:
+	case yellow + 1:
 		m_color = "yellow";
 		break;
-	case 5:
+	case pink + 1:
 		m_color = "pink";
 		break;
-	case 6:
+	case black + 1:
 		m_color = "black";
 		break;
 	default:
@@ -51,8 +53,7 @@ Basic::Basic(int health, int location) : Bloon(health, location){
 // Description: Makes sure everything in child class is deallocated
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
-Basic::~Basic(){
-}
+Basic::~Basic(){}
 // Name: Pop
 // Description: Changes the color of the bloon based on how many health it has left
 // red = 1, blue = 2, green = 3, yellow = 4, pink = 5, black >=6
@@ -62,16 +63,21 @@ int Basic::Pop(int damage){
 	int health = GetHealth();
 	string color = m_color;
 	
+	//checks if health is > 0
 	if (GetHealth() > 0) {
 		health -= damage;
 		cout << color << " bloon pops!" << endl;
 		SetHealth(health);
+
+		//checks if the bloon is popped
 		if (health <= 0)
 		{
 			cout << "the bloon is now gone!" << endl;
 			SetHealth(0);
 			return 0;
 		}
+
+		//changes color based on new health
 		else {
 			switch (health)
 			{
@@ -98,7 +104,6 @@ int Basic::Pop(int damage){
 				break;
 			}
 			cout << "the bloon is now " << m_color << endl;
-
 			return 1;
 		}
 	}

@@ -36,6 +36,7 @@ int Dart::Attack(vector<Bloon*> bloon){
 	int location = GetLocation();
 	int earnings = 0;
 	int health = 0;
+	int currHealth = 0;
 	
 	//loops for num of bloons in vector
 	for (unsigned int i = 0; i < bloon.size(); i++) {
@@ -46,12 +47,15 @@ int Dart::Attack(vector<Bloon*> bloon){
 				cout << "dart monkey throws a dart!" << endl;
 				health = bloon.at(i)->GetHealth();
 				//damages bloon
+				currHealth = bloon.at(i)->GetHealth();
 				bloon.at(i)->Pop(GetDamage());
 				//counts earnings
-				earnings += (health - bloon.at(i)->GetHealth());
+				earnings += (currHealth - bloon.at(i)->GetHealth());
+				//if health is less than earnings, returs health, and vice versa
 				return health < earnings ? health : earnings;
 			}
 		}
 	}
+	//returns 0 if nothing is damaged
 	return 0;
 }

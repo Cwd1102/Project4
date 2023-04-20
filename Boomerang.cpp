@@ -36,18 +36,25 @@ int Boomerang::Attack(vector<Bloon*> bloon){
 	int location = GetLocation();
 	int earnings = 0;
 	int health = 0;
-
+		int currHealth = 0;
+	//loops for the size of the bloon vector
 	for (unsigned int i = 0; i < bloon.size(); i++) {
+		//checks if location of bloon matches with location of monkey
 		if (location == bloon.at(i)->GetLocation() + 1) {
+			//checks if bloon is alive
 			if (bloon.at(i)->GetHealth() > 0) {
 				cout << "boomerang monkey throws a bomberang!" << endl;
+				//damages bloon
 				health += bloon.at(i)->GetHealth();
+				//loops 2 times for boomerang
 				for (int j = 0; j < 2; j++) {
+					currHealth = bloon.at(i)->GetHealth();
 					bloon.at(i)->Pop(GetDamage());
-					earnings += (health - bloon.at(i)->GetHealth());
+					earnings += (currHealth - bloon.at(i)->GetHealth());
 				}
 			}
 		}
 	}
+	//if health is less than earnings, returs health, and vice versa
 	return health < earnings ? health : earnings;
 }
