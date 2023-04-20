@@ -1,3 +1,13 @@
+/*****************************************
+** File:    Basic.cpp
+** Project: CMSC 202 Project 4, Spring 2023
+** Author:  Ouwen Dai
+** Date:    4/20/23
+** Section: 43
+** E-mail:  odai1@umbc.edu
+**
+**
+***********************************************/
 #include "Zebra.h"
 
 // Name: Zebra() - Default Constructor
@@ -17,7 +27,9 @@ Zebra:: Zebra(int health, int location) : Bloon(health, location) {
 // Description: Makes sure everything in child class is deallocated
 // Preconditions: None
 // Postconditions: Everything dynamically allocated is deallocated
-Zebra::~Zebra(){}
+Zebra::~Zebra(){
+
+}
 // Name: Pop
 // Description: Changes the color of the bloon based on how many health it has left
 // red = 1, blue = 2, green = 3, yellow = 4, pink = 5, black >=6
@@ -31,5 +43,5 @@ int Zebra::Pop(int damage){
 // Preconditions: None
 // Postconditions: None
 string Zebra::GetColor(){
-
+	return m_color;
 }
